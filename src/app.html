@@ -2,11 +2,24 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap-grid.min.css"/>
 		<meta name="viewport" content="width=device-width" />
 		%sveltekit.head%
+		<style>
+			body, html {
+				height: 100%;
+				margin: 0;
+				padding: 0;
+			}
+		</style>
 	</head>
-	<body data-sveltekit-preload-data="hover">
-		<div style="display: contents">%sveltekit.body%</div>
-	</body>
+	<div class="container-fluid g-0">
+		<div class="row g-0">
+			<div class="col-xs-12">
+				<body data-sveltekit-preload-data="hover" >%sveltekit.body% </body>
+			</div>
+		</div>
+	</div>
 </html>
