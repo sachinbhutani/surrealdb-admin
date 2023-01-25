@@ -28,9 +28,8 @@
         if (result instanceof  Error) {
             errorMessage = result.name + ": " + result.message
         }else {
-            
-            $authenticatedUser = {server: dbserver, username: username, namespace: namespace, database: database };
-            $dbtoken = result; 
+            $authenticatedUser = {server: dbserver, username: username, namespace: namespace, database: database, dbtoken: result};
+            $authenticatedUser.dbtoken = result;
            goto("/app")
         }
     }
@@ -79,6 +78,6 @@
         <ui5-input id="database" placeholder="Database" required value={database} value-state={databaseError} on:input={(e) => database = e.target.value}></ui5-input>
     </div>
     <div class="col-xs-12 float-end">
-        <ui5-button design="Emphasized" on:click={logintoDB}>Submit</ui5-button>
+        <ui5-button design="Emphasized" on:click={logintoDB} on:keydown={logintoDB}>Submit</ui5-button>
     </div>
 </div>

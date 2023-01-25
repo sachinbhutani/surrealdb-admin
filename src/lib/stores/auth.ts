@@ -6,9 +6,10 @@ interface AuthUser {
     username: string,
     namespace: string,
     database: string,
+    dbtoken: string,
   }
 
-const defaultValue: AuthUser= {server: "", username: "", namespace: "", database: ""} as AuthUser
+const defaultValue: AuthUser= {server: "", username: "", namespace: "", database: "", dbtoken: ""} as AuthUser
 const initialValue = browser ? JSON.parse(localStorage.getItem('authuser')) ?? defaultValue : defaultValue 
 export const authenticatedUser = writable<AuthUser>(initialValue);
 
@@ -17,4 +18,14 @@ authenticatedUser.subscribe( (value) => {
         localStorage.authuser = JSON.stringify(value)
     } 
 }) 
+
 export const dbtoken = writable("");
+
+const initialTheme = browser ? localStorage.getItem('theme') ?? 'sap_horizon' : 'sap_horizon'
+export const theme = writable(initialTheme);
+
+theme.subscribe( (value) => {
+    if(browser){
+        localStorage.theme = value;
+    }
+})

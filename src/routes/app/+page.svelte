@@ -1,5 +1,4 @@
 <script>
-    import { goto } from "$app/navigation";
     import Nsdb from "$lib/components/NSDB.svelte";
     import "@ui5/webcomponents-icons/dist/task"
 </script>
