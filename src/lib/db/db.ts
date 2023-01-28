@@ -1,4 +1,6 @@
 import Surreal from "surrealdb.js";
+import { updateDBTables } from "$lib/stores/db";
+import {get} from 'svelte/store'
 
 interface AuthUser {
     server: string,
@@ -41,7 +43,6 @@ export async function Login(server: string, username: string ,password: string,n
 
 export async function Query(queryString: string): Promise<any>{
 	let result;
-	console.log("DB.isConnected:",DB.isConnected)
 	if (DB.isConnected === false){
 		await reconnect(DB);
 	}
@@ -55,14 +56,23 @@ export async function Query(queryString: string): Promise<any>{
 	return result
 }
 
-export async function Select(tableName: string,start: number, limit: number): Promise<any>{
+export async function Select(tableName: string,start: number, limit: number, selectFields: string[],where: string): Promise<any>{
 	let result;
-	console.log("DB.isConnected:",DB.isConnected)
 	if (DB.isConnected === false){
 		await reconnect(DB);
+		updateDBTables.set(!get(updateDBTables))
 	}
 	try {
-		result = await DB.surreal.query(`SELECT * FROM ${tableName} LIMIT ${limit} START AT ${start}`)
+		let queryString = "SELECT ";
+		if (selectFields.length > 0) 
+			queryString += "id," + selectFields.join(",") + " "
+		else
+			queryString += "* "
+		queryString += `FROM ${tableName} `
+		if (where)
+			queryString +=`WHERE ${where} `
+		queryString += `LIMIT ${limit} START AT ${start} `
+		result = await DB.surreal.query(queryString)
 	}
 	catch(e){
 		console.log("Query Error:",e)
@@ -72,7 +82,7 @@ export async function Select(tableName: string,start: number, limit: number): Pr
 }
 
 async function reconnect(conn: DBType){
-	console.log("trying to reconnect")
+	console.log("DB: trying to reconnect")
 	const a = JSON.parse(localStorage.getItem('authuser'))
 	await conn.surreal.connect(a.server+"/rpc")
 	if (a.username === "root"){

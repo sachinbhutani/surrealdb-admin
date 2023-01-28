@@ -34,11 +34,13 @@
 
 <Breadcrumbs currPage={tableName}></Breadcrumbs>
 <ui5-title>{tableName}</ui5-title>
-<ui5-badge color-scheme={schemaColor}>{schemaType}</ui5-badge>
-<br><br>
+<div class="label">
+    <ui5-badge color-scheme={schemaColor}>{schemaType}</ui5-badge>
+</div>
+<br>
 <ui5-tabcontainer fixed>
 	<ui5-tab text="Data" slected>
-        <TableData {tableName} {page} {limit}></TableData>
+        <TableData {tableName} {page} {limit} {tableFields}></TableData>
     </ui5-tab>
 	<ui5-tab text="Fields">
         <TableFields {tableFields}></TableFields>
@@ -57,3 +59,9 @@
         {permissions}
     </ui5-tab>
 </ui5-tabcontainer>
+
+<style>
+    .label{
+        flex-grow: 0;
+    }
+</style>

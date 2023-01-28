@@ -29,3 +29,5 @@ theme.subscribe( (value) => {
         localStorage.theme = value;
     }
 })
+
+export const sideNavCollapsed = writable(false);

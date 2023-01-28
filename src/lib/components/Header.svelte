@@ -1,5 +1,5 @@
 <script>
-    import { authenticatedUser, theme } from "$lib/stores/auth";
+    import { authenticatedUser, theme, sideNavCollapsed } from "$lib/stores/auth";
     import "@ui5/webcomponents-fiori/dist/Assets";
     import { setTheme } from "@ui5/webcomponents-base/dist/config/Theme";
     import "@ui5/webcomponents-fiori/dist/ShellBar";
@@ -9,7 +9,9 @@
     import "@ui5/webcomponents-icons/dist/palette"
     import "@ui5/webcomponents-icons/dist/database"
     import "@ui5/webcomponents-icons-tnt/dist/data-store"
+    import "@ui5/webcomponents-icons/dist/favorite"
     import "@ui5/webcomponents-icons/dist/sap-box"
+    import "@ui5/webcomponents-icons/dist/menu"
     import "@ui5/webcomponents/dist/Popover"
     import "@ui5/webcomponents/dist/List"
     import "@ui5/webcomponents/dist/ListItem"
@@ -67,13 +69,17 @@
     onMount( () => {
         setTheme($theme)
     })
+    const sideNavToggle = ()=>{
+        $sideNavCollapsed = !$sideNavCollapsed
+    }
 </script>
 
 <header class="app-header">
     <ui5-shellbar primary-title="SurrealDB-Admin" on:profile-click={handleProfileClick}>
-        <ui5-shellbar-item id="github" icon="favorite" on:click={starOnGithub} text="Star us on Github" tooltip="Star us on Github"></ui5-shellbar-item>
-        <ui5-shellbar-item id="themeSwitcher" icon="palette" text="Theme" on:click={handleThemeSettingsToggle} tooltip="switch theme"></ui5-shellbar-item>
+        <ui5-shellbar-item id="github" icon="favorite" on:click={starOnGithub} text="Star us on Github" tooltip="Star us on Github" on:keydown={starOnGithub}></ui5-shellbar-item>
+        <ui5-shellbar-item id="themeSwitcher" icon="palette" text="Theme" on:click={handleThemeSettingsToggle} tooltip="switch theme"  on:keydown={handleThemeSettingsToggle}></ui5-shellbar-item>
         {#if ($authenticatedUser.username !== "")}
+        <ui5-button icon="menu" slot="startButton" id="startButton" on:click={sideNavToggle} on:keydown={sideNavToggle}></ui5-button>
         <ui5-avatar slot="profile" size="XS" initials="{profileInitial}"></ui5-avatar>
         {/if}
     </ui5-shellbar>   
