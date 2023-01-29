@@ -22,6 +22,7 @@ Ui5-Webcomponents
 - Select with specific fields and a where clause
 - improved pagination and select data error handling 
 - collapsable sidebar
+- monaco editor to display json query output 
 
 ## TODO
 - [x] Record pagination
@@ -34,5 +35,5 @@ Ui5-Webcomponents
 - [x] select,Where filters on the table data tab
 - [ ] order by on table data tab
 - [ ] identify data types and display accordingly in data explorer
-- [ ] monaco editor to display json 
+- [X] monaco editor to display json query output 
 - [ ] monaco editor for surrealQL

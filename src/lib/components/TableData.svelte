@@ -107,9 +107,9 @@
     <ui5-panel collapsed>
         <div slot="header">
             {#if (selectFields.length >0) || (whereString !="")}
-            <ui5-icon name="filter" design="Positive" on:click={(e)=>toggleFilter(e)} on:keydown={(e)=>toggleFilter(e)}></ui5-icon> Filter
+            <ui5-icon name="filter" design="Positive"></ui5-icon> Filter
             {:else}
-            <ui5-icon name="filter" design="Critical" on:click={(e)=>toggleFilter(e)} on:keydown={(e)=>toggleFilter(e)}></ui5-icon> Filter
+            <ui5-icon name="filter" design="Critical"></ui5-icon> Filter
             {/if}
             
         </div>

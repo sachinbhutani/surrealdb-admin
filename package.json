@@ -1,6 +1,6 @@
 {
 	"name": "surrealdb-admin",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"private": true,
 	"scripts": {
 		"dev": "vite dev",
@@ -27,6 +27,7 @@
 		"@ui5/webcomponents-fiori": "^1.10.3",
 		"@ui5/webcomponents-icons": "^1.10.3",
 		"@ui5/webcomponents-icons-tnt": "^1.10.3",
+		"monaco-editor": "^0.34.1",
 		"surrealdb.js": "^0.5.0"
 	}
 }

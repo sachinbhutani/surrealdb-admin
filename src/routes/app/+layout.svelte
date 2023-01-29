@@ -4,7 +4,6 @@
 	import Header from '$lib/components/Header.svelte';
     import Sidebar from '$lib/components/Sidebar.svelte';
     import { authenticatedUser } from '$lib/stores/auth';
-    export let data; // data.tables: all tables in the current NS,DB
 </script>
 
 <div class="app-header">
@@ -13,7 +12,7 @@
 <div class="app-main">
     <div class="sidebar-col">
         {#if $authenticatedUser.username !==null && $authenticatedUser.username !== undefined}
-        <Sidebar tables={data.tables}></Sidebar>
+        <Sidebar></Sidebar>
         {/if}
     </div>
     <div class="main-col">

@@ -21,6 +21,7 @@
         page = data.page;
         if (!tableName) return;
         tableDef = $DBTables[tableName]
+        if (!tableDef) return;
         let def = tableDef.split(' ')
         schemaType = def[3]
         schemaColor = schemaType === "SCHEMAFULL" ? 8:1;
