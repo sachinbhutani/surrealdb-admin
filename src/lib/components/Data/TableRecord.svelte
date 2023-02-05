@@ -58,3 +58,9 @@
     </ui5-tabcontainer>
     <!-- {JSON.stringify(record,null,2)}     -->
 </div>
+
+<style>
+    .button-row{
+        display:flex;
+    }
+</style>
