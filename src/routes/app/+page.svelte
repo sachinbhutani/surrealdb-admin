@@ -1,6 +1,6 @@
 <script>
-    import Nsdb from "$lib/components/NSDB.svelte";
-    import Tables from "$lib/components/Tables.svelte";
+    import Nsdb from "$lib/components/layout/NSDB.svelte";
+    import Tables from "$lib/components/layout/Tables.svelte";
     import "@ui5/webcomponents-icons/dist/task"
 </script>
 <br>

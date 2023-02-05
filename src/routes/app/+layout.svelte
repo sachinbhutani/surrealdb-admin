@@ -1,8 +1,8 @@
 
 <script>
-    import Footer from '$lib/components/Footer.svelte';
-	import Header from '$lib/components/Header.svelte';
-    import Sidebar from '$lib/components/Sidebar.svelte';
+    import Footer from '$lib/components/layout/Footer.svelte';
+	import Header from '$lib/components/layout/Header.svelte';
+    import Sidebar from '$lib/components/layout/Sidebar.svelte';
     import { authenticatedUser } from '$lib/stores/auth';
 </script>
 

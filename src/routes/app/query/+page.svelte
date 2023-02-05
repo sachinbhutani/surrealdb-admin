@@ -1,5 +1,5 @@
 <script>
-    import QueryPage from "$lib/components/QueryPage.svelte";
+    import QueryPage from "$lib/components/Query/QueryPage.svelte";
 
     
 </script>

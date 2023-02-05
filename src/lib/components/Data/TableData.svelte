@@ -13,11 +13,15 @@
     import "@ui5/webcomponents-icons/dist/navigation-right-arrow"
     import "@ui5/webcomponents-icons/dist/navigation-left-arrow"
     import "@ui5/webcomponents-icons/dist/filter"
+    import "@ui5/webcomponents-icons/dist/accept"
+    import "@ui5/webcomponents-icons/dist/decline"
     import "@ui5/webcomponents/dist/Panel"
     import "@ui5/webcomponents/dist/Label"
     import "@ui5/webcomponents/dist/Input"
     import "@ui5/webcomponents/dist/MultiInput"
+    import "@ui5/webcomponents/dist/MessageStrip"
     import "@ui5/webcomponents/dist/Token"
+    import "@ui5/webcomponents/dist/Link"
     import "@ui5/webcomponents/dist/features/InputSuggestions"
     export let limit;
     export let page = 1;
@@ -147,7 +151,28 @@
         {#each tableData as tRow}
         <ui5-table-row id={tRow.id}>
             {#each tbColumns as col}
-                <ui5-table-cell style="white-space:nowrap">{tRow[col]? tRow[col]:""}</ui5-table-cell>  
+                {#if col ==="id"}
+                <ui5-table-cell style="white-space:nowrap">
+                    <a href={`/app/table/${tableName}?p=${page}&l=${limit}&r=${tRow[col]}`}>{tRow[col]? tRow[col]:""}</a>
+                </ui5-table-cell>  
+                {:else}
+                    {@const v=tRow[col]}
+                    {#if typeof v == "boolean"}
+                        {#if v=== true}
+                            <ui5-table-cell><center><ui5-icon name="accept"></ui5-icon></center></ui5-table-cell>
+                        {:else}
+                            <ui5-table-cell><center><ui5-icon name="decline"></ui5-icon></center></ui5-table-cell>
+                        {/if}
+                    {:else if typeof v == "object"}
+                        <ui5-table-cell style="white-space:nowrap">{v? JSON.stringify(v).slice(0,40):""}</ui5-table-cell> 
+                    {:else}
+                        {#if v?.toString().length > 40}
+                            <ui5-table-cell style="white-space:nowrap">{v? v.slice(0,40)+"...":""}</ui5-table-cell> 
+                        {:else}
+                            <ui5-table-cell style="white-space:nowrap">{v? v.toString():""}</ui5-table-cell> 
+                        {/if}
+                    {/if} 
+                {/if}
             {/each}
         </ui5-table-row>
         {/each}

@@ -11,12 +11,15 @@
     import { browser } from "$app/environment";
     import { sideNavCollapsed } from "$lib/stores/auth";
     import { updateDBTables, DBTables } from "$lib/stores/db"
-    import { authenticatedUser } from "$lib/stores/auth";
+    import { onMount } from "svelte";
     import { Query} from '$lib/db/db'
 
-    let tables= {}
     $: $updateDBTables, getTables()
-    $: $authenticatedUser, getTables()
+
+    let tables= {}
+    onMount(async ()=>{
+        getTables();
+    });
     function navigate(event){
         if (browser) {
             if (event.detail.item.id !== undefined)

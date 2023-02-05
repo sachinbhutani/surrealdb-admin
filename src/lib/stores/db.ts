@@ -6,3 +6,4 @@ interface Tables {
 
 export const updateDBTables  = writable(false);
 export const DBTables = writable<Tables>({"":""});
+export const DBRecord = writable({});

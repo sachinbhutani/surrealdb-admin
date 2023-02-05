@@ -1,9 +1,13 @@
 export const ssr =false;
- 
-export const load = (({ params, url }) => {
+
+export const load = (async({ params, url }) => {
+  let tableName = params.slug
+  let recordId = url.searchParams.get("r") ?? ""
+  
   return {
-      tableName: params.slug, 
+      tableName: tableName, 
       page: url.searchParams.get("p") ?? 1,
-      limit: url.searchParams.get("l") ?? 50 //default page limit 
+      limit: url.searchParams.get("l") ?? 50, //default page limit 
+      recordId: recordId,
   }
 })

@@ -56,6 +56,15 @@ export async function Query(queryString: string): Promise<any>{
 	return result
 }
 
+export async function Update(tableName: string, recordId: string, record:{}): Promise<any>{
+	if (DB.isConnected === false){
+		await reconnect(DB);
+		updateDBTables.set(!get(updateDBTables))
+	}
+	let thing = `${tableName}:${recordId}`
+	return await DB.surreal.update(thing,record)
+}
+
 export async function Select(tableName: string,start: number, limit: number, selectFields: string[],where: string): Promise<any>{
 	let result;
 	if (DB.isConnected === false){
@@ -71,7 +80,12 @@ export async function Select(tableName: string,start: number, limit: number, sel
 		queryString += `FROM ${tableName} `
 		if (where)
 			queryString +=`WHERE ${where} `
-		queryString += `LIMIT ${limit} START AT ${start} `
+		if (limit !== undefined && start !== undefined) {
+			queryString += `LIMIT ${limit} START AT ${start} `
+		}else {
+			queryString += `LIMIT 30 START AT 0 `
+		}
+
 		result = await DB.surreal.query(queryString)
 	}
 	catch(e){

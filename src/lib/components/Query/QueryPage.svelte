@@ -6,38 +6,9 @@
     import "@ui5/webcomponents/dist/MessageStrip"
     import {updateDBTables} from '$lib/stores/db'
     import { Query} from "$lib/db/db"
-    import Breadcrumbs from "./Breadcrumbs.svelte";
-    import {theme} from '$lib/stores/auth'
-    //monaco-stuff
-    import { onMount } from "svelte";
-    import jsonWorker from "monaco-editor/esm/vs/language/json/json.worker?worker";
-    let divEl;
-    let editor;
-    let Monaco;
-    onMount(async () => {
-        self.MonacoEnvironment = {
-        getWorker: function (_moduleId, label) {
-            return new jsonWorker();
-        },
-        };
-        let monacoTheme = "vs-light";
-        if ($theme.indexOf('dark') > -1) {
-            monacoTheme = "vs-dark"
-        }
-        Monaco = await import("monaco-editor");
-        editor = Monaco.editor.create(divEl, {
-        value: "",
-        language: "json",
-        theme: monacoTheme,
-        readOnly: true,
-        scrollBeyondLastLine: false,
-        });
-        return () => {
-        editor.dispose();
-        };
-    });
-    //end monaco stuff
-
+    import Breadcrumbs from "../layout/Breadcrumbs.svelte";
+    import JsonOutput from "../layout/JSONOutput.svelte";
+    
     export let querystring = "",queryresult = "" ,queryButtonText = "Run", queryButtonDisabled = false, queryResultStatus="None", queryResultMessage = "";
 
     async function RunQuery(){
@@ -57,7 +28,7 @@
             queryResultStatus = "Positive"
             queryresult = JSON.stringify(result,null,2)
         }
-        editor.setValue(queryresult)
+       // editor.setValue(queryresult)
     }
 </script>
 <Breadcrumbs currPage="Run Query"></Breadcrumbs>
@@ -69,13 +40,5 @@
 <ui5-message-strip design={queryResultStatus} hide-close-button>{queryResultMessage}</ui5-message-strip>
 {/if}
 <ui5-label for="queryResult"><strong>Result</strong></ui5-label>
-<div class="query-output" bind:this={divEl}></div>
-<style>
-    .query-output{
-        display: flex;
-        flex-direction: row;
-        flex-grow: 1;
-        overflow-y: auto;
-    }
-</style>
+<JsonOutput output={queryresult}></JsonOutput>
 <!-- <ui5-textarea id="queryresult" readonly rows="20" style="height:500px" value={queryresult} placeholder="Query Result" value-state={queryResultStatus}></ui5-textarea> -->
