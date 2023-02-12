@@ -51,7 +51,7 @@
 </script>
 <Breadcrumbs currPage={tableName} {page} {limit}></Breadcrumbs>
 {#if (recordId)}
-    <TableRecord {tableName} {recordId} {record}></TableRecord>
+    <TableRecord {tableName} {recordId} {record} {schemaType}></TableRecord>
 
 {:else}
     

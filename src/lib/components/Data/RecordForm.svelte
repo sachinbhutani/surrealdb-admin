@@ -74,6 +74,9 @@
                 <div class="form-row"><ui5-textarea value={v} style="width: 80%" growing data-key={k} on:input={updateValue}></ui5-textarea></div>
             {/if}
         {/if}
+        {#if v instanceof Date}
+            <div class="form-row"><ui5-input value={v.toString()} style="width: 80%" data-key={k}  on:input={updateValue}></ui5-input></div>
+        {/if}
         {#if T == "number"}
             <div class="form-row"><ui5-input value={v} style="width: 80%" data-key={k} on:input={updateNumberValue} type="Number"></ui5-input></div>
         {/if}

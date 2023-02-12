@@ -62,7 +62,13 @@ export async function Update(tableName: string, recordId: string, record:{}): Pr
 		updateDBTables.set(!get(updateDBTables))
 	}
 	let thing = `${tableName}:${recordId}`
-	return await DB.surreal.update(thing,record)
+	let result;
+	try {
+		  result = await DB.surreal.update(thing,record)
+	}catch(e){
+		return e
+	}
+	return result
 }
 
 export async function Select(tableName: string,start: number, limit: number, selectFields: string[],where: string): Promise<any>{

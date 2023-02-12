@@ -10,8 +10,11 @@
     import {page} from "$app/stores"
     import RecordForm from "./RecordForm.svelte";
     import { Update } from "$lib/db/db";
+    import AddField from "./AddField.svelte";
 
-    export let tableName="", recordId ="", record = {}
+    export let tableName="", recordId ="", record = {}, schemaType ="";
+    let newFields = [], appendObject = {};
+    let loading = false;
     let updateJSONEditor;
     let errorMessage = "", errorMessageDesign = ""
     let l, p
@@ -19,12 +22,17 @@
     p = $page.data.page;
     async function saveRecord(){
         errorMessageDesign = "Positive"
+        record = Object.assign(record,appendObject)
+        appendObject = {};
+        loading = true;
         let r = await Update(tableName,recordId,record)
+        loading = false;
         if (r instanceof Error){
             errorMessageDesign = "Negative"
             errorMessage = r.name + ": " + r.message
             return 
         }
+        newFields = [];
         errorMessage = "Record Updated"
     }
     function handleTabClick(event){
@@ -36,11 +44,16 @@
     function updateRecordObject(){
         record = record;
     }
+    function addNewFields(){
+        appendObject = {} 
+        newFields.forEach((v)=>{
+            appendObject[v.fieldName]= v.fieldValue})
+    }
 </script>
 <div class="record">
     <div class="button-row">
         <ui5-button icon="decline" on:click={goto(`/app/table/${tableName}?p=${p}&l=${l}`)} on:keydown={goto(`/app/table/${tableName}?p=${p}&l=${l}`)}>Close</ui5-button>
-        <ui5-button icon="save" on:click={saveRecord} on:keydown={saveRecord} design="Positive">Save</ui5-button>
+        <ui5-button icon="save" on:click={saveRecord} on:keydown={saveRecord} design="Positive" disabled={loading}>Save</ui5-button>
     </div>
     {#if errorMessage !== ""} 
         <ui5-message-strip design={errorMessageDesign}>{errorMessage}</ui5-message-strip>
@@ -56,11 +69,15 @@
         </div>
         </ui5-tab>
     </ui5-tabcontainer>
-    <!-- {JSON.stringify(record,null,2)}     -->
+    {#if schemaType === "SCHEMALESS"}
+    <AddField bind:newFields={newFields} on:addNewFields={addNewFields}></AddField> 
+    {/if}
 </div>
 
 <style>
     .button-row{
         display:flex;
+        gap: 10px;
+        justify-items: flex-end;
     }
 </style>

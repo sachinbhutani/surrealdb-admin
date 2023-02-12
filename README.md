@@ -16,17 +16,21 @@ Svelte-Kit
 SAP ui5-Webcomponents
 
 # Change log 
-2023-04-02:
+2023-02-11:
+ - Add new fields to schemaless tables
+ - Error handling during record update
+ 
+2023-02-04:
  - Update records with forms/JSON 
  - improvements to data tables 
 
-2023-28-01
+2023-01-28
 - Select with specific fields and a where clause
 - improved pagination and select data error handling 
 - collapsable sidebar
 - monaco editor to display json query output 
 
-2023-24-01: 
+2023-01-24: 
 - Added pagination
 - WS reconnect on browser URL based navigation
 - UI theme selection / dark mode.
@@ -45,4 +49,4 @@ SAP ui5-Webcomponents
 - [x] monaco editor to display json query output 
 - [ ] monaco editor for surrealQL
 - [ ] create new record form
-- [ ] add/remove fields from existing records
+- [x] add/remove fields from existing records
