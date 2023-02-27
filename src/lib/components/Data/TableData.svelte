@@ -185,8 +185,8 @@
     <ui5-button icon="navigation-left-arrow" slot="startContent" disabled={page==1} tooltip="Previous Page" on:click={goto(`/app/table/${tableName}?p=${page-1}&l=${limit}`)} on:keydown={goto(`/app/table/${tableName}?p=1&l=${limit}`)}></ui5-button>
     <ui5-button design="Transparent">{startRecord}-{endRecord}/{tableCount}</ui5-button>
 	<ui5-button icon="history" design="Transparent" slot="endContent">{tbQueryTime}</ui5-button>
-    <ui5-button icon="navigation-right-arrow" slot="endContent" disabled={page==lastPage} tooltip="Next Page"on:click={goto(`/app/table/${tableName}?p=${parseInt(page)+1}&l=${limit}`)} on:keydown={goto(`/app/table/${tableName}?p=${page+1}&l=${limit}`)}></ui5-button>
-    <ui5-button icon="open-command-field" slot="endContent" disabled={page==lastPage} tooltip="Next Page" on:click={goto(`/app/table/${tableName}?p=${lastPage}&l=${limit}`)} on:keydown={goto(`/app/table/${tableName}?p=${lastPage}&l=${limit}`)}></ui5-button>
+    <ui5-button icon="navigation-right-arrow" slot="endContent" disabled={page>=lastPage} tooltip="Next Page"on:click={goto(`/app/table/${tableName}?p=${parseInt(page)+1}&l=${limit}`)} on:keydown={goto(`/app/table/${tableName}?p=${page+1}&l=${limit}`)}></ui5-button>
+    <ui5-button icon="open-command-field" slot="endContent" disabled={page>=lastPage} tooltip="Next Page" on:click={goto(`/app/table/${tableName}?p=${lastPage}&l=${limit}`)} on:keydown={goto(`/app/table/${tableName}?p=${lastPage}&l=${limit}`)}></ui5-button>
 </ui5-bar>
 
 <style>

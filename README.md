@@ -8,7 +8,7 @@ This is client side only app, so you can connect to surreal DB running at http:/
 
 ![Screenshot](/static/screenshot.png?raw=true "Sample Screenshot")
 
-![Screenshot](/static/screenshot2_edit_record.png?raw=true "Edit Records")
+![Screenshot](/static/Screenshot2_edit_record.png?raw=true "Edit Records")
 
 # Built With
 Svelte-Kit
@@ -16,6 +16,11 @@ Svelte-Kit
 SAP ui5-Webcomponents
 
 # Change log 
+2023-02-26: 
+ - scopes browser
+ - create table option
+ - home page tiles
+
 2023-02-11:
  - Add new fields to schemaless tables
  - Error handling during record update
@@ -40,7 +45,7 @@ SAP ui5-Webcomponents
 - [x] WS reconnection on browser URL change
 - [x] UI Themes
 - [X] Allow to edit records in GUI
-- [ ] Display Scopes 
+- [X] Display Scopes 
 - [ ] Login with scopes
 - [ ] Foreign key links
 - [x] Select,Where filters on the table data tab

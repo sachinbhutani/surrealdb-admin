@@ -3,6 +3,7 @@
     import "@ui5/webcomponents-icons/dist/home";
     import "@ui5/webcomponents-icons/dist/task";
     import "@ui5/webcomponents-icons/dist/table-view";
+    import "@ui5/webcomponents-icons/dist/overlay";
     import "@ui5/webcomponents-icons/dist/slim-arrow-down";
     import "@ui5/webcomponents-fiori/dist/SideNavigation.js";
     import "@ui5/webcomponents-fiori/dist/SideNavigationItem.js"
@@ -39,9 +40,10 @@
 <ui5-side-navigation on:ui5-selection-change={(e)=>navigate(e)} collapsed={$sideNavCollapsed}>
     <ui5-side-navigation-item text="Home" icon="home" id="/app" href="/app"></ui5-side-navigation-item>
     <ui5-side-navigation-item text="Query" icon="task" id="/app/query" href="/app/query"></ui5-side-navigation-item>
-    <ui5-side-navigation-item text="Tables" icon="table-view" expanded whole-item-toggleable=true>
+    <ui5-side-navigation-item text="Tables" icon="table-view" expanded id="/app/tables/" href="/app/tables">
         {#each Object.entries($DBTables) as [tb,tbinfo]}
          <ui5-side-navigation-sub-item text="{tb}" id="/app/table/{tb}"></ui5-side-navigation-sub-item>
         {/each}
     </ui5-side-navigation-item>
+    <ui5-side-navigation-item text="Scopes" icon="overlay" id="/app/scopes" href="/app/scopes"></ui5-side-navigation-item>   
 </ui5-side-navigation>

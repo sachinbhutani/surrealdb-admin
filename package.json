@@ -1,6 +1,6 @@
 {
 	"name": "surrealdb-admin",
-	"version": "0.0.6",
+	"version": "0.0.7",
 	"private": true,
 	"scripts": {
 		"dev": "vite dev",
@@ -12,22 +12,22 @@
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^2.0.0",
-		"@sveltejs/kit": "^1.5.5",
+		"@sveltejs/kit": "^1.7.2",
 		"eslint": "^8.34.0",
 		"eslint-plugin-svelte3": "^4.0.0",
 		"svelte": "^3.55.1",
 		"svelte-check": "^3.0.3",
 		"typescript": "^4.9.5",
-		"vite": "^4.1.1"
+		"vite": "^4.1.2"
 	},
 	"type": "module",
 	"dependencies": {
-		"@ui5/webcomponents": "^1.10.3",
-		"@ui5/webcomponents-base": "^1.10.3",
-		"@ui5/webcomponents-fiori": "^1.10.3",
-		"@ui5/webcomponents-icons": "^1.10.3",
-		"@ui5/webcomponents-icons-tnt": "^1.10.3",
-		"monaco-editor": "^0.35.0",
+		"@ui5/webcomponents": "^1.10.4",
+		"@ui5/webcomponents-base": "^1.10.4",
+		"@ui5/webcomponents-fiori": "^1.10.4",
+		"@ui5/webcomponents-icons": "^1.10.4",
+		"@ui5/webcomponents-icons-tnt": "^1.10.4",
+		"monaco-editor": "^0.36.0",
 		"surrealdb.js": "^0.5.0"
 	}
 }

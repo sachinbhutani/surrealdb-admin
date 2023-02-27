@@ -24,7 +24,7 @@
         $updateDBTables = !$updateDBTables   
     }
 </script>
-<ui5-panel accessible-role="Complementary" header-text="Change Namespace or Database for {$authenticatedUser.server} " class="full-width" collapsed>
+<ui5-panel accessible-role="Complementary" header-text="Change Namespace or Database for {$authenticatedUser.server} " class="full-width">
     {#if errorMessage !== "" && errorMessage !== undefined}
         <ui5-message-strip design="Negative" hide-icon hide-close-button>{errorMessage}</ui5-message-strip>
     {/if}

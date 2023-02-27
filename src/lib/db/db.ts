@@ -15,12 +15,19 @@ interface DBType {
 	isConnected: boolean,
 }
 
+export const TableDef = {
+	name : { fieldType: "string", isRequired: true, prefix: "DEFINE TABLE", lable: "Table Name", placeholder: "@name", value: ""},
+	schemaType: {fieldType: "option", isRequired: true, options: ["SCHEMALESS","SCHEMAFULL"], placeholder: "Select Schema Type", value:""},
+	permissions: {fieldType: "text", isRequired:false, placeholder: `[ NONE | FULL | FOR select @expression | FOR create @expression | FOR update @expression | FOR delete @expression ] `, prefix: "PERMISSIONS", value:""}
+}
+
+
 export const DB: DBType = {surreal: new Surreal(), isConnected: false};
 
 export async function Login(server: string, username: string ,password: string,namespace: string, database: any): Promise<any> {
 	let dbtoken = ""
 	try {
-		DB.surreal.connect(server + "/rpc");
+		await DB.surreal.connect(server + "/rpc");
 		dbtoken = await DB.surreal.signin({
 			user: username,
 			pass: password,
@@ -116,4 +123,7 @@ async function reconnect(conn: DBType){
 
 DB.surreal.on('error',()=>{console.log("DB connection error")})
 DB.surreal.on('open',()=> {console.log("DB connection is now open")});
-DB.surreal.on('close',()=> { console.log("DB connection closed")});
+DB.surreal.on('close',()=> { 
+	console.log("DB connection closed")
+	DB.surreal.invalidate()
+});

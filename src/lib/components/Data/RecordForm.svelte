@@ -3,6 +3,7 @@
     import "@ui5/webcomponents/dist/Label"
     import "@ui5/webcomponents/dist/TextArea"
     import "@ui5/webcomponents/dist/Switch"
+    import "@ui5/webcomponents/dist/DateTimePicker"
     import { createEventDispatcher } from 'svelte';
     
     export let rec;
@@ -32,6 +33,11 @@
         rec[k] = event.target.checked
         dispatchEvent('updateObject')
     }
+    // function updateDateValue(event){
+    //     let k = event.target.getAttribute("data-key")
+    //     rec[k] = event.target.dateValue;
+    //     dispatchEvent("updateObject")
+    // }
     function updateObjectValue(event){
         let k = event.target.getAttribute("data-key")
         rec[k] = JSON.parse(event.target.value)
