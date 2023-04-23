@@ -9,7 +9,7 @@
     import "@ui5/webcomponents-icons/dist/palette"
     import "@ui5/webcomponents-icons/dist/database"
     import "@ui5/webcomponents-icons-tnt/dist/data-store"
-    import "@ui5/webcomponents-icons/dist/favorite"
+    import "@ui5/webcomponents-icons-tnt/dist/github"
     import "@ui5/webcomponents-icons/dist/sap-box"
     import "@ui5/webcomponents-icons/dist/menu"
     import "@ui5/webcomponents/dist/Popover"
@@ -17,7 +17,6 @@
     import "@ui5/webcomponents/dist/ListItem"
     import { goto } from "$app/navigation";
     import { onMount } from "svelte";
-    import "@ui5/webcomponents-icons/dist/favorite"
    
     let secondaryTitle = "", profileInitial ="";
     let profileSettingsPopover,themeSettingsPopover;
@@ -76,7 +75,7 @@
 
 <header class="app-header">
     <ui5-shellbar primary-title="SurrealDB-Admin" on:profile-click={handleProfileClick}>
-        <ui5-shellbar-item id="github" icon="favorite" on:click={starOnGithub} text="Star us on Github" tooltip="Star us on Github" on:keydown={starOnGithub}></ui5-shellbar-item>
+        <ui5-shellbar-item id="github" icon="tnt/github" on:click={starOnGithub} text="Star us on Github" tooltip="Star us on Github" on:keydown={starOnGithub}></ui5-shellbar-item>
         <ui5-shellbar-item id="themeSwitcher" icon="palette" text="Theme" on:click={handleThemeSettingsToggle} tooltip="switch theme"  on:keydown={handleThemeSettingsToggle}></ui5-shellbar-item>
         {#if ($authenticatedUser.username !== "")}
         <ui5-button icon="menu" slot="startButton" id="startButton" on:click={sideNavToggle} on:keydown={sideNavToggle}></ui5-button>

@@ -1,28 +1,21 @@
 import Surreal from "surrealdb.js";
-import { updateDBTables } from "$lib/stores/db";
+import { updateDBTables, isDBConnected } from "$lib/stores/db";
 import {get} from 'svelte/store'
-
-interface AuthUser {
-    server: string,
-    username: string,
-    namespace: string,
-    database: string,
-    dbtoken: string,
-  }
+import { authenticatedUser } from "$lib/stores/auth";
+import type { AuthUser } from "$lib/stores/auth";
 
 interface DBType {
 	surreal: Surreal,
-	isConnected: boolean,
 }
 
 export const TableDef = {
-	name : { fieldType: "string", isRequired: true, prefix: "DEFINE TABLE", lable: "Table Name", placeholder: "@name", value: ""},
+	name : { fieldType: "string", isRequired: true, prefix: "DEFINE TABLE", label: "Table Name", placeholder: "@name", value: ""},
 	schemaType: {fieldType: "option", isRequired: true, options: ["SCHEMALESS","SCHEMAFULL"], placeholder: "Select Schema Type", value:""},
 	permissions: {fieldType: "text", isRequired:false, placeholder: `[ NONE | FULL | FOR select @expression | FOR create @expression | FOR update @expression | FOR delete @expression ] `, prefix: "PERMISSIONS", value:""}
 }
 
 
-export const DB: DBType = {surreal: new Surreal(), isConnected: false};
+export const DB: DBType = {surreal: new Surreal()};
 
 export async function Login(server: string, username: string ,password: string,namespace: string, database: any): Promise<any> {
 	let dbtoken = ""
@@ -32,6 +25,7 @@ export async function Login(server: string, username: string ,password: string,n
 			user: username,
 			pass: password,
 		});
+		console.log("DB TOken for root:",dbtoken);
 		//TODO: implement timeout
 	} catch(e){
 		console.log("Login error:",e)
@@ -44,16 +38,19 @@ export async function Login(server: string, username: string ,password: string,n
 		console.log("Login error:",e);
 		return e
 	}
-	DB.isConnected = true;
-	return dbtoken === "" ? password : dbtoken;
+	isDBConnected.set(true);
+	dbtoken = dbtoken? dbtoken: password; //no token is returned for root user.
+	return dbtoken;
 }
 
 export async function Query(queryString: string): Promise<any>{
 	let result;
-	if (DB.isConnected === false){
+	console.log("Query:",queryString)
+	if (get(isDBConnected) === false){
 		await reconnect(DB);
 	}
 	try {
+		
 		result = await DB.surreal.query(queryString);
 	}
 	catch(e){
@@ -64,7 +61,7 @@ export async function Query(queryString: string): Promise<any>{
 }
 
 export async function Update(tableName: string, recordId: string, record:{}): Promise<any>{
-	if (DB.isConnected === false){
+	if (get(isDBConnected) === false){
 		await reconnect(DB);
 		updateDBTables.set(!get(updateDBTables))
 	}
@@ -75,14 +72,14 @@ export async function Update(tableName: string, recordId: string, record:{}): Pr
 	}catch(e){
 		return e
 	}
+	updateDBTables.set(!get(updateDBTables))
 	return result
 }
 
 export async function Select(tableName: string,start: number, limit: number, selectFields: string[],where: string): Promise<any>{
 	let result;
-	if (DB.isConnected === false){
+	if (get(isDBConnected) === false){
 		await reconnect(DB);
-		updateDBTables.set(!get(updateDBTables))
 	}
 	try {
 		let queryString = "SELECT ";
@@ -109,16 +106,42 @@ export async function Select(tableName: string,start: number, limit: number, sel
 }
 
 async function reconnect(conn: DBType){
-	console.log("DB: trying to reconnect")
-	const a = JSON.parse(localStorage.getItem('authuser'))
-	await conn.surreal.connect(a.server+"/rpc")
-	if (a.username === "root"){
-		await conn.surreal.signin({user:a.username, pass: a.dbtoken})
-	}else {
-		await conn.surreal.authenticate(a.dbtoken)
+	//let authuser = localStorage.getItem('authuser') ?? "";
+	let authuser: AuthUser = get(authenticatedUser)
+	console.log("DB: trying to reconnect with user", JSON.stringify(authuser))
+	await conn.surreal.connect(authuser.server+"/rpc")
+	try{
+		if (authuser.username === "root"){
+			await conn.surreal.signin({user:authuser.username, pass: authuser.dbtoken})
+		}else {
+			await conn.surreal.authenticate(authuser.dbtoken)
+		}
+	}catch(e){
+		console.log("Connection Error:",e)
+		isDBConnected.set(true)
 	}
-	await conn.surreal.use(a.namespace,a.database);
-	conn.isConnected = true;
+	await conn.surreal.use(authuser.namespace,authuser.database);
+	isDBConnected.set(true)
+}
+
+export async function Use(namespace: string, database:string): Promise<any>{
+	let result;
+	let authuser: AuthUser = get(authenticatedUser)
+	if (get(isDBConnected) === false){
+		await reconnect(DB);
+	}
+	try {
+		
+		result = await DB.surreal.use(namespace,database);
+	}
+	catch(e){
+		console.log("Error while switching NS,DB :",e)
+		return e
+	}
+	authuser.namespace = namespace;
+	authuser.database = database;
+	authenticatedUser.set(authuser);
+	return result
 }
 
 DB.surreal.on('error',()=>{console.log("DB connection error")})
@@ -127,3 +150,4 @@ DB.surreal.on('close',()=> {
 	console.log("DB connection closed")
 	DB.surreal.invalidate()
 });
+

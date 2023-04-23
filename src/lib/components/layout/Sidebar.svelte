@@ -14,6 +14,7 @@
     import { updateDBTables, DBTables } from "$lib/stores/db"
     import { onMount } from "svelte";
     import { Query} from '$lib/db/db'
+     import { tick } from "svelte";
 
     $: $updateDBTables, getTables()
 
@@ -30,9 +31,12 @@
 
     async function getTables(){
         if (browser){
+        await tick()
         let dbInfo = await Query("INFO FOR DB;")
-            tables = dbInfo[0].result.tb;
-            $DBTables = tables;
+            if ((dbInfo.length) && dbInfo.length > 0){
+                tables = dbInfo[0].result.tb;
+                $DBTables = tables;
+            }
         }
     }
 

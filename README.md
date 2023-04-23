@@ -16,6 +16,12 @@ Svelte-Kit
 SAP ui5-Webcomponents
 
 # Change log 
+2023-04-22 
+ - bug fixes, 
+ - upgraded to new versions for surrealjs, svelte, sveltekit and ui5 webcomponents
+ - replaced monaco with codeMirror
+ - added codemirror for SQL for query input box
+
 2023-02-26: 
  - scopes browser
  - create table option
@@ -48,10 +54,11 @@ SAP ui5-Webcomponents
 - [X] Display Scopes 
 - [ ] Login with scopes
 - [ ] Foreign key links
+- [ ] Function list and management
 - [x] Select,Where filters on the table data tab
 - [ ] order by on table data tab
 - [x] identify data types and display accordingly in data explorer
-- [x] monaco editor to display json query output 
-- [ ] monaco editor for surrealQL
+- [x] codeMirror editor to display json query output 
+- [x] codeMirror editor for surrealQL
 - [ ] create new record form
 - [x] add/remove fields from existing records

@@ -1,3 +1,7 @@
+<!-- <script module="context" lang="ts">
+  import { isDBConnected } from "$lib/stores/db";
+  import {authenticatedUser} from '$lib/stores/auth';
+</script> -->
 <div class="app-footer">
     <div>
     <footer>

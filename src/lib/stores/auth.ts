@@ -9,6 +9,8 @@ interface AuthUser {
     dbtoken: string,
   }
 
+export type {AuthUser};
+
 const defaultValue: AuthUser= {server: "", username: "", namespace: "", database: "", dbtoken: ""} as AuthUser
 const initialValue = browser ? JSON.parse(localStorage.getItem('authuser')) ?? defaultValue : defaultValue 
 export const authenticatedUser = writable<AuthUser>(initialValue);

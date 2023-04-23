@@ -1,9 +1,9 @@
-<script>
+<script lang="ts">
     import "@ui5/webcomponents/dist/Input";
     import "@ui5/webcomponents/dist/Label";
     import "@ui5/webcomponents/dist/Button";
     import "@ui5/webcomponents/dist/MessageStrip";
-    import { authenticatedUser, dbtoken } from "$lib/stores/auth";
+    import { authenticatedUser} from "$lib/stores/auth";
     import { Login} from "$lib/db/db"
     import { goto } from "$app/navigation";
 
@@ -28,8 +28,8 @@
         if (result instanceof  Error) {
             errorMessage = result.name + ": " + result.message
         }else {
-            $authenticatedUser = {server: dbserver, username: username, namespace: namespace, database: database, dbtoken: result};
-            $authenticatedUser.dbtoken = result;
+            let authUser = {server: dbserver, username: username, namespace: namespace, database: database, dbtoken: result}; 
+            authenticatedUser.set(authUser)
            goto("/app")
         }
     }

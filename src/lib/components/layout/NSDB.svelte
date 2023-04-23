@@ -6,14 +6,16 @@
     import "@ui5/webcomponents-icons-tnt/dist/data-store"
     import "@ui5/webcomponents/dist/Panel"
     import {authenticatedUser} from '$lib/stores/auth'
-    import { DB } from "$lib/db/db";
+    import { Use } from "$lib/db/db";
     import { updateDBTables } from "$lib/stores/db";
-    let namespace="", database="", errorMessage = ""
+
+    let namespace="", database="", errorMessage = "", successMessage = ""
 
     async function switchDatabase() {
         console.log("Switch to",namespace,database)
         try {
-            let r = await DB.use(namespace,database)
+            let r = await Use(namespace,database)
+            successMessage = `Switched to Namespace: ${namespace} and Database: ${database}`
         }catch(e){
             errorMessage = e.toString();
             return;
@@ -27,6 +29,9 @@
 <ui5-panel accessible-role="Complementary" header-text="Change Namespace or Database for {$authenticatedUser.server} " class="full-width">
     {#if errorMessage !== "" && errorMessage !== undefined}
         <ui5-message-strip design="Negative" hide-icon hide-close-button>{errorMessage}</ui5-message-strip>
+    {/if}
+    {#if successMessage !== ""}
+        <ui5-message-strip design="Positive" hide-icon hide-close-button>{successMessage}</ui5-message-strip>
     {/if}
     <div class="nsdb">
         <div>

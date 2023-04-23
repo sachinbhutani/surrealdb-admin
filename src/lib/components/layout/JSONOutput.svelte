@@ -1,65 +1,32 @@
 <script>
-    import { onMount } from "svelte";
+    import {json} from "@codemirror/lang-json"
+    import CodeMirror from "svelte-codemirror-editor";
     import {theme} from '$lib/stores/auth'
-    import jsonWorker from "monaco-editor/esm/vs/language/json/json.worker?worker";
-    import { browser } from "$app/environment";
-    
-    let divEl;
-    let editor;
-    let Monaco;
-    export let output;
-    $: output, updateEditor()
-        onMount(async () => {
-        self.MonacoEnvironment = {
-        getWorker: function (_moduleId, label) {
-            return new jsonWorker();
-        },
-        };
-        let monacoTheme = "vs-light";
-        if ($theme.indexOf('dark') > -1) {
-            monacoTheme = "vs-dark"
+    import { oneDark } from "@codemirror/theme-one-dark";
+    import { onMount } from "svelte";
+    export let output = "";  
+    let isDark = false;  
+    onMount( ()=>{
+        if ($theme.indexOf('dark')> -1){
+            isDark = true;
         }
-        Monaco = await import("monaco-editor");
-        editor = Monaco.editor.create(divEl, {
-                value: output,
-                language: "json",
-                theme: monacoTheme,
-                readOnly: true,
-                scrollBeyondLastLine: false,
-                automaticLayout: true,
-                minimap: {
-                    enabled: false,
-                    }
-                });
-        const updateHeight = () => {
-            const contentHeight = Math.min(2000, editor.getContentHeight());
-            if(divEl){
-                divEl.style.height = `${contentHeight}px`;
-                editor.layout();
-            }
-            };
-        editor.onDidContentSizeChange(updateHeight);
-        updateHeight();
-
-        return () => {
-        editor.dispose();
-        };
-    });
-
-    function updateEditor(){
-        if (browser && editor) {
-            editor.setValue(output);
-        }
-    }
-
+    })
+    $: $theme 
 </script>
-<div class="query-output" bind:this={divEl}></div>
+<div class="query-output">
+    {#if isDark}
+        <CodeMirror lang={json()} readonly bind:value={output} theme={oneDark}></CodeMirror>
+    {:else}
+        <CodeMirror lang={json()} readonly bind:value={output}></CodeMirror>
+    {/if}
+</div>
 <style>
     .query-output{
-        display: flex;
+        display: block;
         flex-direction: row;
         flex-grow: 1;
         resize:vertical;
         overflow: auto;
-    }
+        width: 100%;
+}
 </style>
